@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>~/kohan_mathers $</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta property="og:title" content="~/kohan_mathers $" />
+  <meta property="og:description" content="Asking the useless questions since 2007" />
+  <meta property="og:image" content="https://cdn.quietterminal.co.uk/press-materials/meet-the-team/LyraMTT.webp" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="kmathers.co.uk" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="~/kohan_mathers $" />
+  <meta name="twitter:description" content="Asking the useless questions since 2007" />
+  <meta name="twitter:image" content="https://cdn.quietterminal.co.uk/press-materials/meet-the-team/LyraMTT.webp" />
+  <meta name="description" content="Developer Game Designer Data Hoarder - Asking the useless questions since 2007" />
+  <meta name="author" content="Kohan Mathers" />
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
+
+  <style>
+    body {
+      margin: 0;
+      font-family: monospace;
+      background-color: #000;
+      color: #ccc;
+      min-height: 100vh;
+    }
+    a {
+      text-decoration: none;
+      color: #999;
+      transition: color 0.2s;
+    }
+    a:hover {
+      color: #eee;
+    }
+    header, nav, footer, main {
+      max-width: 64rem;
+      margin: 0 auto;
+      padding: 1.5rem;
+    }
+    header {
+      border-bottom: 1px solid #666;
+    }
+    nav {
+      border-bottom: 1px solid #666;
+    }
+    nav ul {
+      list-style: none;
+      padding: 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    nav li {
+      font-size: 0.95rem;
+    }
+    section {
+      margin-top: 3rem;
+    }
+    h1 {
+      color: #eee;
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+    }
+    h2 {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #eee;
+      border-bottom: 1px solid #666;
+      padding-bottom: 0.5rem;
+    }
+    h3 {
+      color: #eee;
+      font-size: 1.2rem;
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+    }
+    p {
+      color: #999;
+    }
+    .italic {
+      font-style: italic;
+      color: #777;
+    }
+    .grid {
+      display: grid;
+      gap: 1.5rem;
+    }
+    .md-grid-2 {
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    }
+    .md-grid-3 {
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    }
+    .md-grid-4 {
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    }
+    .card {
+      border: 1px solid #666;
+      background-color: rgba(30, 30, 30, 0.5);
+      padding: 1rem;
+      border-radius: 0.5rem;
+    }
+    .photos img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: opacity 0.2s, transform 0.2s ease;
+    }
+    .photos img:hover {
+      transform: scale(1.05);
+      opacity: 0.9;
+    }
+    .photos div {
+      aspect-ratio: 1 / 1;
+      background-color: #222;
+      border: 1px solid #666;
+      border-radius: 0.5rem;
+      overflow: hidden;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .photos div:hover {
+      transform: scale(1.02);
+      box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
+    }
+    details {
+      position: relative;
+    }
+    details[open]::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.7);
+      z-index: 99;
+    }
+    details[open] .popup {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: #111;
+      padding: 0.25rem;
+      border: 1px solid #666;
+      border-radius: 0.5rem;
+      z-index: 100;
+      max-width: 90vw;
+      max-height: 90vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    details[open] .popup img {
+      display: block;
+      max-width: 100%;
+      max-height: 100%;
+      width: auto;
+      height: auto;
+      border-radius: 0.25rem;
+      object-fit: contain;
+    }
+    details[open] .close-button {
+      position: absolute;
+      top: 0.5rem;
+      right: 0.75rem;
+      font-size: 2.25rem;
+      color: #f44;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 0;
+      line-height: 1;
+      font-weight: bold;
+      transition: color 0.2s, transform 0.2s;
+      user-select: none;
+      text-decoration: none;
+    }
+    details[open] .close-button:hover {
+      color: #fff;
+      transform: scale(1.2);
+    }
+
+    footer {
+      border-top: 1px solid #666;
+      text-align: center;
+      font-size: 0.875rem;
+      color: #777;
+    }
+    footer .mt-2 {
+      margin-top: 0.5rem;
+    }
+    footer .mt-1 {
+      margin-top: 0.25rem;
+    }
+    footer .opacity-70 {
+      opacity: 0.7;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>~/kohan_mathers $</h1>
+    <p class="text-xl">Developer Game Designer Data Hoarder</p>
+    <p class="italic">"Asking the useless questions since 2007"</p>
+  </header>
+
+  <nav>
+    <ul>
+      <li><a href="#welcome">Welcome</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#tech">Tech Stack</a></li>
+      <li><a href="#photos">Photos</a></li>
+      <li><a href="#contact">Contact</a></li>
+      <li><a href="about:blank" class="opacity-70" style="font-size: 0.75rem;">Click for nothing</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <!-- Welcome Section -->
+    <section id="welcome">
+      <h2>Welcome to my website</h2>
+      <p>Hello, user.</p>
+      <p>If you're here, you've come to visit my website. I'm Kohan Mathers, also known as IEatSystemFiles.</p>
+      <p>Explore the sections below to discover more about what I do. I run <a href="https://quietterminal.co.uk/" target="_blank" rel="noopener noreferrer">Quiet Terminal Interactive (QTI)</a>, a game studio with the motto "Being Generic Was Never An Option."</p>
+      <p>Fun fact: This website is made entirely out of HTML and CSS (no JS in sight) and runs in a single file!</p>
+      <p>The favicon doesn't count, the website can run without it.</p>
+      <p>Enjoy your stay!</p>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects">
+      <h2>Current Projects</h2>
+      <div class="grid md-grid-2">
+        <div class="card">
+          <h3>Wrench</h3>
+          <p class="text-sm">Custom Minecraft Server Engine</p>
+          <p>A from-scratch Minecraft server engine built using Minestom. Because why use existing solutions when you can obsessively build your own?</p>
+        </div>
+        <div class="card">
+          <h3>PlaceholderNametags</h3>
+          <p class="text-sm">Paper Plugin</p>
+          <p>A Paper plugin enabling PlaceholderAPI placeholders in nametag suffixes and prefixes. Works very well alongside <a href="https://www.spigotmc.org/resources/pronouns.123867/" target="_blank" rel="noopener noreferrer">my pronouns plugin</a>. <a href="https://www.spigotmc.org/resources/placeholdernametags.125083/" target="_blank" rel="noopener noreferrer">Available on Spigot</a>.</p>
+        </div>
+        <div class="card">
+          <h3>PaperBag</h3>
+          <p class="text-sm">Programming Language</p>
+          <p>A simplified language that compiles to Java, designed to make coding plugins for Wrench and Bukkit easier and more intuitive.</p>
+        </div>
+        <div class="card">
+          <h3>Discord Bots</h3>
+          <p class="text-sm">TwitchAnnouncer & MemberMessenger</p>
+          <p>Discord bots for stream announcements and multipurpose server management. Because automation is life.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tech Stack -->
+    <section id="tech">
+      <h2>Tech Arsenal</h2>
+      <div class="grid md-grid-3">
+        <div>
+          <h3>Languages</h3>
+          <ul>
+            <li>Java (love it)</li>
+            <li>Kotlin (with distaste)</li>
+            <li>Rust (respect)</li>
+            <li>Python (reliable)</li>
+            <li>PaperBag (yes my own language made this list)</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Tools</h3>
+          <ul>
+            <li>SSH (remote everything)</li>
+            <li>Notepad++ (simplicity)</li>
+            <li>Git (version sanity)</li>
+            <li>Linux (freedom)</li>
+            <li>Terminal (home)</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Philosophy</h3>
+          <ul>
+            <li>Minimalism over bloat</li>
+            <li>Custom protocols</li>
+            <li>Data hoarding</li>
+            <li>Build from scratch</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Photos -->
+    <section id="photos">
+      <h2>Have a look at some photos</h2>
+      <p>They're mostly mine, except for the F1 meme, I just really like it.</p>
+      <div class="grid md-grid-4 photos">
+        <details>
+          <summary><img src="https://media.discordapp.net/attachments/1286433512555024527/1392639691416666173/bzSJRFn.png?ex=68704448&is=686ef2c8&hm=b2ee83135de63d23a1791f9c5954aeec46654eac3edf442acc917256e462e2ef&=&format=webp&quality=lossless&width=1128&height=728" alt="Demonstration for my PlaceholderNametags plugin"></summary>
+          <div class="popup">
+        <a href="" class="close-button" title="Close">&times;</a>
+        <img src="https://media.discordapp.net/attachments/1286433512555024527/1392639691416666173/bzSJRFn.png?ex=68704448&is=686ef2c8&hm=b2ee83135de63d23a1791f9c5954aeec46654eac3edf442acc917256e462e2ef&=&format=webp&quality=lossless&width=1128&height=728" alt="">
+          </div>
+        </details>
+        <details>
+          <summary><img src="https://media.discordapp.net/attachments/1286433512555024527/1392639691811197120/GnQub8z.png?ex=68704448&is=686ef2c8&hm=6f5b5445036e9fca08032e82dc0de78d7c948bf0b955e80776e364bc882868d4&=&format=webp&quality=lossless&width=1128&height=567" alt="Demonstration of my Pronouns plugin using a chat formatter"></summary>
+          <div class="popup">
+        <a href="" class="close-button" title="Close">&times;</a>
+        <img src="https://media.discordapp.net/attachments/1286433512555024527/1392639691811197120/GnQub8z.png?ex=68704448&is=686ef2c8&hm=6f5b5445036e9fca08032e82dc0de78d7c948bf0b955e80776e364bc882868d4&=&format=webp&quality=lossless&width=1128&height=567" alt="">
+          </div>
+        </details>
+        <details>
+          <summary><img src="https://media.discordapp.net/attachments/1286433512555024527/1392639692280692766/osYQdsp.png?ex=68704448&is=686ef2c8&hm=31576b386e4b3e610dcf8cf3ecd97ad4beb1174bb97abab7d3476c1f84ad1f14&=&format=webp&quality=lossless&width=1128&height=569" alt="Demonstration of a test plugin for Minecraft racing"></summary>
+          <div class="popup">
+        <a href="" class="close-button" title="Close">&times;</a>
+        <img src="https://media.discordapp.net/attachments/1286433512555024527/1392639692280692766/osYQdsp.png?ex=68704448&is=686ef2c8&hm=31576b386e4b3e610dcf8cf3ecd97ad4beb1174bb97abab7d3476c1f84ad1f14&=&format=webp&quality=lossless&width=1128&height=569" alt="">
+          </div>
+        </details>
+        <details>
+          <summary><img src="https://media.discordapp.net/attachments/1286433512555024527/1392639692729487392/4WQB6ZG.png?ex=68704448&is=686ef2c8&hm=467554b9687b2ac06baa84361b6a6a3a5f6d2884137f59ef7fc5582fbfe118d8&=&format=webp&quality=lossless" alt="Screenshot with emoji mod active"></summary>
+          <div class="popup">
+        <a href="" class="close-button" title="Close">&times;</a>
+        <img src="https://media.discordapp.net/attachments/1286433512555024527/1392639692729487392/4WQB6ZG.png?ex=68704448&is=686ef2c8&hm=467554b9687b2ac06baa84361b6a6a3a5f6d2884137f59ef7fc5582fbfe118d8&=&format=webp&quality=lossless" alt="">
+          </div>
+        </details>
+        <details>
+          <summary><img src="https://media.discordapp.net/attachments/1286433512555024527/1392639693258227783/zxj1U54.png?ex=68704448&is=686ef2c8&hm=bf3440a3b64568d3a784e8a3c3afe10f8d9abb9ae62e168554476d8a840cd853&=&format=webp&quality=lossless&width=1128&height=635" alt="Minecraft submarine build"></summary>
+          <div class="popup">
+        <a href="" class="close-button" title="Close">&times;</a>
+        <img src="https://media.discordapp.net/attachments/1286433512555024527/1392639693258227783/zxj1U54.png?ex=68704448&is=686ef2c8&hm=bf3440a3b64568d3a784e8a3c3afe10f8d9abb9ae62e168554476d8a840cd853&=&format=webp&quality=lossless&width=1128&height=635" alt="">
+          </div>
+        </details>
+        <details>
+          <summary><img src="https://media.discordapp.net/attachments/1146055737445982270/1392650017352847462/o13HIfJ.png?ex=68704de6&is=686efc66&hm=603b28d32c0cb9cc5c431bff3f3cddaad17cc2bfd119a38eff13135651c1eb62&=&format=webp&quality=lossless" alt="F1 meme about subtitles"></summary>
+          <div class="popup">
+        <a href="" class="close-button" title="Close">&times;</a>
+        <img src="https://media.discordapp.net/attachments/1146055737445982270/1392650017352847462/o13HIfJ.png?ex=68704de6&is=686efc66&hm=603b28d32c0cb9cc5c431bff3f3cddaad17cc2bfd119a38eff13135651c1eb62&=&format=webp&quality=lossless" alt="">
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact">
+      <h2>Connect</h2>
+      <div class="grid md-grid-2">
+        <div>
+          <a href="mailto:kohanamthersmcgonnell@gmail.com">kohanamthersmcgonnell@gmail.com</a><br>
+          <a href="https://github.com/kohanmathers" target="_blank" rel="noopener noreferrer">GitHub: kohanmathers</a><br>
+          <a href="discord://-/users/520872721060462592" target="_blank" rel="noopener noreferrer">Discord: IEatSystemFiles</a><br>
+        </div>
+        <div>
+          <a href="https://quietterminal.co.uk/" target="_blank" rel="noopener noreferrer">QTI Website</a><br>
+          <a href="https://discord.gg/FZuVXszuuM" target="_blank" rel="noopener noreferrer">Discord Server</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>No cookies. No trackers. No JS.</p>
+    <p class="mt-2">Built with semantic HTML and pure CSS © 2024 Kohan Mathers</p>
+    <p class="mt-1 opacity-70">Last updated: 2025-07-09</p>
+  </footer>
+</body>
+</html>
