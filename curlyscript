@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CurlyScript Playground - Never Enough Braces</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Courier New', monospace;
+            background-color: #000;
+            color: #ccc;
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+        
+        a {
+            text-decoration: none;
+            color: #999;
+            transition: color 0.2s;
+        }
+        
+        a:hover {
+            color: #eee;
+        }
+        
+        header, nav, footer, main {
+            max-width: 80rem;
+            margin: 0 auto;
+            padding: 1.5rem;
+        }
+        
+        header {
+            border-bottom: 1px solid #666;
+            text-align: center;
+        }
+        
+        h1 {
+            color: #eee;
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+        }
+        
+        .subtitle {
+            color: #999;
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .tagline {
+            font-style: italic;
+            color: #777;
+            font-size: 1rem;
+        }
+        
+        h2 {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #eee;
+            border-bottom: 1px solid #666;
+            padding-bottom: 0.5rem;
+            margin-top: 2rem;
+        }
+        
+        h3 {
+            color: #eee;
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        
+        .grid {
+            display: grid;
+            gap: 1.5rem;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        }
+        
+        .card {
+            border: 1px solid #666;
+            background-color: rgba(30, 30, 30, 0.5);
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+        }
+        
+        .code-block {
+            background-color: #111;
+            border: 1px solid #444;
+            border-radius: 0.25rem;
+            padding: 1rem;
+            font-family: 'Courier New', monospace;
+            color: #ccc;
+            overflow-x: auto;
+            white-space: pre;
+        }
+        
+        .playground {
+            margin-top: 2rem;
+            display: grid;
+            gap: 1rem;
+            grid-template-columns: 1fr 1fr;
+        }
+        
+        @media (max-width: 768px) {
+            .playground {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .editor-container {
+            display: flex;
+            flex-direction: column;
+            border: 1px solid #666;
+            border-radius: 0.5rem;
+            background-color: rgba(30, 30, 30, 0.8);
+        }
+        
+        .editor-header {
+            padding: 0.75rem 1rem;
+            background-color: #222;
+            border-bottom: 1px solid #444;
+            border-radius: 0.5rem 0.5rem 0 0;
+            font-weight: bold;
+            color: #eee;
+        }
+        
+        .editor {
+            width: 100%;
+            height: 400px;
+            background-color: #111;
+            color: #ccc;
+            border: none;
+            padding: 1rem;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            resize: none;
+            outline: none;
+            border-radius: 0 0 0.5rem 0.5rem;
+        }
+        
+        .output {
+            background-color: #111;
+            color: #0f0;
+            border: none;
+            padding: 1rem;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            min-height: 350px;
+            white-space: pre-wrap;
+            overflow-y: auto;
+            border-radius: 0 0 0.5rem 0.5rem;
+        }
+        
+        .controls {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            margin: 1rem 0;
+            flex-wrap: wrap;
+        }
+        
+        button {
+            background-color: #333;
+            color: #ccc;
+            border: 1px solid #666;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.25rem;
+            cursor: pointer;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+        
+        button:hover {
+            background-color: #444;
+            color: #eee;
+        }
+        
+        button:active {
+            background-color: #555;
+        }
+        
+        .run-btn {
+            background-color: #2d5a2d;
+            color: #afa;
+        }
+        
+        .run-btn:hover {
+            background-color: #3d6a3d;
+            color: #cfc;
+        }
+        
+        .clear-btn {
+            background-color: #5a2d2d;
+            color: #faa;
+        }
+        
+        .clear-btn:hover {
+            background-color: #6a3d3d;
+            color: #fcc;
+        }
+        
+        .examples {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+        
+        .example-btn {
+            font-size: 12px;
+            padding: 0.5rem 1rem;
+            background-color: #2d2d5a;
+            color: #aaf;
+        }
+        
+        .example-btn:hover {
+            background-color: #3d3d6a;
+            color: #ccf;
+        }
+        
+        .syntax-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+        
+        .syntax-table th,
+        .syntax-table td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid #444;
+        }
+        
+        .syntax-table th {
+            background-color: #222;
+            color: #eee;
+            font-weight: bold;
+        }
+        
+        .syntax-table code {
+            background-color: #111;
+            padding: 0.2rem 0.4rem;
+            border-radius: 0.2rem;
+            color: #aaf;
+            font-family: 'Courier New', monospace;
+        }
+        
+        footer {
+            border-top: 1px solid #666;
+            text-align: center;
+            font-size: 0.875rem;
+            color: #777;
+            margin-top: 3rem;
+        }
+        
+        .intro-text {
+            font-size: 1.1rem;
+            margin: 1.5rem 0;
+            color: #bbb;
+        }
+        
+        .highlight {
+            color: #aaf;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>CurlyScript</h1>
+        <p class="subtitle">Assembly - Never Enough Braces Edition</p>
+        <p class="tagline">"For those who think JavaScript doesn't have enough curly brackets"</p>
+    </header>
+
+    <main>
+        <section>
+            <p class="intro-text">
+                Welcome to <span class="highlight">CurlyScript</span>, the esoteric programming language designed specifically for developers who just can't get enough curly brackets in their life! 
+                If you've ever looked at code and thought "this needs more {}", then you've found your new favorite language.
+            </p>
+            
+            <p class="intro-text">
+                CurlyScript is a minimalist assembly-like language where <strong>literally everything</strong> is made of curly brackets. 
+                Numbers, commands, data types - it's curly brackets all the way down! 
+                Perfect for when you want to confuse your coworkers or just embrace the bracket life.
+            </p>
+        </section>
+
+        <section>
+            <h2>Quick Syntax Reference</h2>
+            
+            <div class="grid">
+                <div class="card">
+                    <h3>Commands</h3>
+                    <table class="syntax-table">
+                        <tr>
+                            <th>Command</th>
+                            <th>Description</th>
+                        </tr>
+                        <tr>
+                            <td><code>{} [num] [type]</code></td>
+                            <td>SET cell to number</td>
+                        </tr>
+                        <tr>
+                            <td><code>{}}</code></td>
+                            <td>MOVE pointer RIGHT</td>
+                        </tr>
+                        <tr>
+                            <td><code>{{}</code></td>
+                            <td>MOVE pointer LEFT</td>
+                        </tr>
+                        <tr>
+                            <td><code>{{}}</code></td>
+                            <td>PRINT current cell</td>
+                        </tr>
+                        <tr>
+                            <td><code>{{{}}}</code></td>
+                            <td>PRINT newline</td>
+                        </tr>
+                    </table>
+                </div>
+                
+                <div class="card">
+                    <h3>Number Encoding</h3>
+                    <p>Each digit = (bracket_count - 1)</p>
+                    <div class="code-block">} = 0 (1 bracket - 1)
+}} = 1 (2 brackets - 1)
+}}} = 2 (3 brackets - 1)
+}}}} = 3 (4 brackets - 1)
+}}}}} = 4 (5 brackets - 1)
+
+Examples:
+}} = 1
+}}}}}}}}{{{ = 72 (H in ASCII)
+}}{}}}}} = 105 (i in ASCII)</div>
+                </div>
+                
+                <div class="card">
+                    <h3>Data Types</h3>
+                    <table class="syntax-table">
+                        <tr>
+                            <th>Type</th>
+                            <th>Description</th>
+                        </tr>
+                        <tr>
+                            <td><code>{{}}</code></td>
+                            <td>ASCII character</td>
+                        </tr>
+                        <tr>
+                            <td><code>}}</code></td>
+                            <td>Numeric digit</td>
+                        </tr>
+                    </table>
+                </div>
+                
+                <div class="card">
+                    <h3>Binary Operations</h3>
+                    <table class="syntax-table">
+                        <tr>
+                            <th>Operation</th>
+                            <th>Command</th>
+                        </tr>
+                        <tr>
+                            <td>ADD</td>
+                            <td><code>{}{}</code></td>
+                        </tr>
+                        <tr>
+                            <td>SUBTRACT</td>
+                            <td><code>{}{}{}</code></td>
+                        </tr>
+                        <tr>
+                            <td>MULTIPLY</td>
+                            <td><code>{}{}{}{}</code></td>
+                        </tr>
+                        <tr>
+                            <td>DIVIDE</td>
+                            <td><code>{}{}{}{}{}</code></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>CurlyScript Playground</h2>
+            
+            <div class="controls">
+                <button class="run-btn" onclick="runCode()">🚀 Run Code</button>
+                <button class="clear-btn" onclick="clearOutput()">🗑 Clear Output</button>
+                
+                <div class="examples">
+                    <span style="color: #999;">Examples:</span>
+                    <button class="example-btn" onclick="loadExample('hello')">Hello World</button>
+                    <button class="example-btn" onclick="loadExample('math')">Math Demo</button>
+                    <button class="example-btn" onclick="loadExample('name')">Print Name</button>
+                </div>
+            </div>
+            
+            <div class="playground">
+                <div class="editor-container">
+                    <div class="editor-header">📝 CurlyScript Code</div>
+                    <textarea class="editor" id="codeEditor" placeholder="# Enter your CurlyScript code here
+# Example: Print 'Hi'
+{} }}}}}}}}{{{ {{}}
+{{}}
+{}}
+{} }}{}}}}}} {{}}
+{{}}
+{{{}}}"># Welcome to CurlyScript!
+# Let's print "Hi" to get started
+
+# Set H (ASCII 72)
+{} }}}}}}}}{{{ {{}}
+{{}}
+{}}
+# Set i (ASCII 105)  
+{} }}{}}}}} {{}}
+{{}}
+{{{}}}</textarea>
+                </div>
+                
+                <div class="editor-container">
+                    <div class="editor-header">💻 Output</div>
+                    <div class="output" id="output">Click "Run Code" to execute your CurlyScript program!</div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>CurlyScript - Because sometimes you just need more brackets in your life</p>
+        <p style="margin-top: 0.5rem; opacity: 0.7;">Built with excessive amounts of { and }</p>
+    </footer>
+
+    <script>
+        class CurlyScript {
+            constructor() {
+                this.memory = new Array(3000).fill(0);
+                this.pointer = 0;
+                this.output = "";
+            }
+
+            parseCellOffset(encoded) {
+                if (!encoded) return 0;
+                
+                if (encoded.startsWith("}")) {
+                    let count = 0;
+                    for (let c of encoded) {
+                        if (c === "}") count++;
+                        else break;
+                    }
+                    return count;
+                } else if (encoded.startsWith("{")) {
+                    let count = 0;
+                    for (let c of encoded) {
+                        if (c === "{") count++;
+                        else break;
+                    }
+                    return -count;
+                } else {
+                    return 0;
+                }
+            }
+
+            parseNumber(encoded) {
+                if (!encoded) return 0;
+                
+                let number = "";
+                let i = 0;
+
+                while (i < encoded.length) {
+                    let braceCount = 0;
+                    let currentBrace = encoded[i];
+
+                    while (i < encoded.length && encoded[i] === currentBrace) {
+                        braceCount++;
+                        i++;
+                    }
+                    
+                    let digit = braceCount - 1;
+                    if (digit < 0 || digit > 9) {
+                        throw new Error(`Invalid digit encoding: ${braceCount} brackets gives digit ${digit}`);
+                    }
+                    
+                    number += digit.toString();
+                }
+
+                return number ? parseInt(number) : 0;
+            }
+
+            run(code) {
+                this.output = "";
+                const lines = code.trim().split('\n');
+
+                for (let lineNum = 0; lineNum < lines.length; lineNum++) {
+                    const line = lines[lineNum].trim();
+                    if (!line || line.startsWith('#')) continue;
+
+                    try {
+                        this.executeLine(line);
+                    } catch (e) {
+                        this.output += `Error on line ${lineNum + 1}: ${e.message}\n`;
+                        this.output += `Line: ${line}\n`;
+                        this.debugState();
+                        break;
+                    }
+                }
+                
+                return this.output;
+            }
+
+            executeLine(line) {
+                const tokens = line.split(/\s+/);
+                if (!tokens.length) return;
+                
+                const command = tokens[0];
+                const operands = tokens.slice(1);
+
+                if (command === "{}") {
+                    // SET command
+                    if (operands.length < 2) {
+                        throw new Error(`SET command requires number and data type, got: ${operands}`);
+                    }
+                    
+                    const encodedNumber = operands[0];
+                    const dataType = operands[1];
+                    
+                    const value = this.parseNumber(encodedNumber);
+                    
+                    if (dataType === "{{}}") {  // ASCII
+                        this.memory[this.pointer] = value;
+                    } else if (dataType === "}}") {  // Digit
+                        this.memory[this.pointer] = value;
+                    } else {
+                        throw new Error(`Unknown data type: ${dataType}`);
+                    }
+                } else if (command === "{}}") {
+                    // MOVE RIGHT
+                    this.pointer = (this.pointer + 1) % this.memory.length;
+                } else if (command === "{{}") {
+                    // MOVE LEFT
+                    this.pointer = (this.pointer - 1 + this.memory.length) % this.memory.length;
+                } else if (command === "{{}}") {
+                    // PRINT current cell
+                    const value = this.memory[this.pointer];
+                    
+                    if (value >= 32 && value <= 126) {
+                        // Printable ASCII
+                        this.output += String.fromCharCode(value);
+                    } else {
+                        // Print as number
+                        this.output += value.toString();
+                    }
+                } else if (command === "{{{}}}") {
+                    // PRINT NEWLINE
+                    this.output += '\n';
+                } else if (command === "{}{}") {
+                    // ADD operation
+                    this.binaryOperation(operands, (a, b) => a + b, "ADD");
+                } else if (command === "{}{}{}") {
+                    // SUBTRACT operation
+                    this.binaryOperation(operands, (a, b) => a - b, "SUB");
+                } else if (command === "{}{}{}{}") {
+                    // MULTIPLY operation
+                    this.binaryOperation(operands, (a, b) => a * b, "MUL");
+                } else if (command === "{}{}{}{}{}") {
+                    // DIVIDE operation
+                    this.binaryOperation(operands, (a, b) => b !== 0 ? Math.floor(a / b) : 0, "DIV");
+                } else {
+                    throw new Error(`Unknown command: ${command}`);
+                }
+            }
+
+            binaryOperation(operands, operation, opName) {
+                let offset1, offset2;
+                
+                if (operands.length === 0) {
+                    offset1 = 0;
+                    offset2 = 0;
+                } else if (operands.length === 1) {
+                    offset1 = 0;
+                    offset2 = this.parseCellOffset(operands[0]);
+                } else if (operands.length === 2) {
+                    offset1 = this.parseCellOffset(operands[0]);
+                    offset2 = this.parseCellOffset(operands[1]);
+                } else {
+                    throw new Error(`Binary operation requires 0, 1, or 2 offset operands, got ${operands.length}`);
+                }
+                
+                const pos1 = (this.pointer + offset1 + this.memory.length) % this.memory.length;
+                const pos2 = (this.pointer + offset2 + this.memory.length) % this.memory.length;
+                
+                try {
+                    const result = operation(this.memory[pos1], this.memory[pos2]);
+                    this.memory[pos1] = result;
+                } catch (e) {
+                    this.memory[pos1] = 0;
+                }
+            }
+
+            debugState() {
+                this.output += `[DEBUG] Pointer: ${this.pointer}, Value: ${this.memory[this.pointer]}\n`;
+                const start = Math.max(0, this.pointer - 3);
+                const end = Math.min(this.memory.length, this.pointer + 4);
+                const memorySlice = this.memory.slice(start, end);
+
+                this.output += "[DEBUG] Memory: ";
+                for (let i = 0; i < memorySlice.length; i++) {
+                    const pos = start + i;
+                    if (pos === this.pointer) {
+                        this.output += `[${memorySlice[i]}] `;
+                    } else {
+                        this.output += `${memorySlice[i]} `;
+                    }
+                }
+                this.output += '\n';
+            }
+        }
+
+        const examples = {
+            hello: `# Print "Hello!"
+# Set H (ASCII 72) 
+{} }}}}}}}}{{{ {{}}
+{{}}
+{}}
+# Set e (ASCII 101)
+{} }}{}} {{}}
+{{}}
+{}}
+# Set l (ASCII 108)
+{} }}{}}}}}}}}} {{}}
+{{}}
+{}}
+# Set l (ASCII 108)
+{} }}{}}}}}}}}} {{}}
+{{}}
+{}}
+# Set o (ASCII 111)
+{} }}{{}} {{}}
+{{}}
+{}}
+# Set ! (ASCII 33)
+{} }}}}{{{{ {{}}
+{{}}
+{{{}}}`,
+            
+            math: `# Math Demo: 5 + 3 = 8
+# Set first cell to 5
+{} }}}}}} }}
+{}}
+# Set second cell to 3
+{} }}}} }}
+# Move back to first cell
+{{}
+# Add second cell to first cell
+{}{} }
+# Print result
+{{}}
+{{{}}}`
+,
+            name: `# Print "Code"
+# Set C (ASCII 67)
+{} }}}}}}}{{{{{{{{ {{}}
+{{}}
+{}}
+# Set o (ASCII 111)
+{} }}{{}} {{}}
+{{}}
+{}}
+# Set d (ASCII 100)
+{} }}{} {{}}
+{{}}
+{}}
+# Set e (ASCII 101)
+{} }}{}} {{}}
+{{}}
+{{{}}}`
+        };
+
+        function runCode() {
+            const code = document.getElementById('codeEditor').value;
+            const outputElement = document.getElementById('output');
+            
+            try {
+                outputElement.textContent = "Running...";
+                
+                setTimeout(() => {
+                    const interpreter = new CurlyScript();
+                    const result = interpreter.run(code);
+                    
+                    if (result.trim() === "") {
+                        outputElement.textContent = "(Program completed with no output)";
+                    } else {
+                        outputElement.textContent = result;
+                    }
+                }, 100);
+                
+            } catch (error) {
+                outputElement.textContent = `Runtime Error: ${error.message}`;
+            }
+        }
+
+        function clearOutput() {
+            document.getElementById('output').textContent = "Output cleared. Click 'Run Code' to execute your program.";
+        }
+
+        function loadExample(exampleName) {
+            if (examples[exampleName]) {
+                document.getElementById('codeEditor').value = examples[exampleName];
+                document.getElementById('output').textContent = "Example loaded! Click 'Run Code' to execute.";
+            }
+        }
+
+        // Allow Ctrl+Enter to run code
+        document.getElementById('codeEditor').addEventListener('keydown', function(e) {
+            if (e.ctrlKey && e.key === 'Enter') {
+                e.preventDefault();
+                runCode();
+            }
+        });
+    </script>
+</body>
+</html>
