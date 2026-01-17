@@ -1,1 +1,1 @@
-It all runs in one HTML file with no JavaScript, pretty cool right?
+Why are you looking at this GitHub page?
