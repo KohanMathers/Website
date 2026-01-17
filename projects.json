@@ -1,70 +1,73 @@
-[
-  {
-    "name": "Pronouns",
-    "type": "Paper Plugin",
-    "description": "A Paper plugin allowing players to set and display their pronouns directly in chat with stunning gradient effects, PlaceholderAPI integration, and comprehensive customization options.",
-    "links": [
-      {
-        "label": "Available on Spigot",
-        "url": "https://www.spigotmc.org/resources/pronouns.123867/"
-      }
-    ],
-    "images": [
-        "images/pronouns1.png"
-    ]
-  },
-  {
-    "name": "PlaceholderNametags",
-    "type": "Paper Plugin",
-    "description": "A Paper plugin enabling PlaceholderAPI placeholders in nametag suffixes and prefixes. Works very well alongside my pronouns plugin.",
-    "links": [
-      {
-        "label": "Available on Spigot",
-        "url": "https://www.spigotmc.org/resources/placeholdernametags.125083/"
-      }
-    ],
-    "images": [
-        "images/pnametags1.png"
-    ]
-  },
-  {
-    "name": "Quill",
-    "type": "Programming Language",
-    "description": "Create community-run events without bugging your admins. Event-driven scripting within isolated, permission-controlled scopes.",
-    "links": [
-      {
-        "label": "GitHub",
-        "url": "https://github.com/KohanMathers/Quill"
-      }
-    ],
-    "images": [
-        "images/quill1.png",
-        "images/quill2.png"
-    ]
-  },
-  {
-    "name": "CurlyScript",
-    "type": "Programming Language",
-    "description": "I can't come up with a reasonable explanation as to why I made it. Just know I did, and it was worth it.",
-    "links": [
-      {
-        "label": "Try it",
-        "url": "https://kmathers.co.uk/curlyscript.html"
-      }
-    ],
-    "images": [
-        "images/cs1.png"
-    ]
-  },
-  {
-    "name": "Project Neon",
-    "type": "Netcode Library",
-    "description": "A  fully modular, relay-based multiplayer protocol that is completely game-agnostic.",
-    "links": [
-      {
-        "label": "GitHub",
-        "url": "https://github.com/quiet-terminal-interactive/projectneon"
-      }
-    ]
-  }
-]
+{
+  "projects":
+  [
+    {
+      "name": "Pronouns",
+      "type": "Paper Plugin",
+      "description": "A Paper plugin allowing players to set and display their pronouns directly in chat with stunning gradient effects, PlaceholderAPI integration, and comprehensive customization options.",
+      "links": [
+        {
+          "label": "Available on Spigot",
+          "url": "https://www.spigotmc.org/resources/pronouns.123867/"
+        }
+      ],
+      "images": [
+          "images/pronouns1.png"
+      ]
+    },
+    {
+      "name": "PlaceholderNametags",
+      "type": "Paper Plugin",
+      "description": "A Paper plugin enabling PlaceholderAPI placeholders in nametag suffixes and prefixes. Works very well alongside my pronouns plugin.",
+      "links": [
+        {
+          "label": "Available on Spigot",
+          "url": "https://www.spigotmc.org/resources/placeholdernametags.125083/"
+        }
+      ],
+      "images": [
+          "images/pnametags1.png"
+      ]
+    },
+    {
+      "name": "Quill",
+      "type": "Programming Language",
+      "description": "Create community-run events without bugging your admins. Event-driven scripting within isolated, permission-controlled scopes.",
+      "links": [
+        {
+          "label": "GitHub",
+          "url": "https://github.com/KohanMathers/Quill"
+        }
+      ],
+      "images": [
+          "images/quill1.png",
+          "images/quill2.png"
+      ]
+    },
+    {
+      "name": "CurlyScript",
+      "type": "Programming Language",
+      "description": "I can't come up with a reasonable explanation as to why I made it. Just know I did, and it was worth it.",
+      "links": [
+        {
+          "label": "Try it",
+          "url": "https://kmathers.co.uk/curlyscript.html"
+        }
+      ],
+      "images": [
+          "images/cs1.png"
+      ]
+    },
+    {
+      "name": "Project Neon",
+      "type": "Netcode Library",
+      "description": "A  fully modular, relay-based multiplayer protocol that is completely game-agnostic.",
+      "links": [
+        {
+          "label": "GitHub",
+          "url": "https://github.com/quiet-terminal-interactive/projectneon"
+        }
+      ]
+    }
+  ]
+}
