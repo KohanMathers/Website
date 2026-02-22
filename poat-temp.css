@@ -1,0 +1,550 @@
+:root {
+  --bg: #111318;
+  --surface: #1c1f27;
+  --border: #2a2d36;
+  --text: #f0f0f0;
+  --muted: #8b8fa8;
+  --mint: #a4e0c3;
+  --teal: #00a19b;
+  --rose: #d69aa2;
+  --left-w: 220px;
+  --right-w: 300px;
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: radial-gradient(1200px 600px at -5% -10%, #232a36 0%, var(--bg) 55%);
+  color: var(--text);
+  font-family: "Segoe UI", sans-serif;
+}
+
+#app {
+  display: grid;
+  grid-template-columns: var(--left-w) 6px 1fr 6px var(--right-w);
+  grid-template-rows: auto 1fr;
+  height: 100vh;
+}
+
+/* ── Topbar ── */
+.topbar {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  overflow-x: auto;
+  overflow-y: visible;
+  padding: 8px 12px;
+  min-height: 56px;
+  border-bottom: 1px solid var(--border);
+  background: #171b24;
+  position: relative;
+  z-index: 40;
+}
+.logo {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--mint);
+  margin-right: 4px;
+  flex-shrink: 0;
+}
+
+/* ── Toolbar groups ── */
+.toolbar-group {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  padding: 4px 8px;
+  border: 1px solid #242938;
+  border-radius: 10px;
+  background: #1a1e29;
+  flex-shrink: 0;
+}
+.toolbar-group.wide {
+  min-width: 0;
+}
+.toolbar-dropdown {
+  position: relative;
+  padding: 4px 6px;
+}
+.toolbar-dropdown > summary {
+  list-style: none;
+  border: 1px solid var(--border);
+  background: #252a37;
+  color: var(--text);
+  border-radius: 8px;
+  padding: 6px 10px;
+  cursor: pointer;
+  font-size: 12px;
+}
+.toolbar-dropdown > summary::-webkit-details-marker {
+  display: none;
+}
+.toolbar-dropdown[open] > summary {
+  border-color: var(--mint);
+}
+.toolbar-dropdown-panel {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px;
+  min-width: 280px;
+  padding: 8px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: #1a1e29;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+}
+.toolbar-dropdown-panel .upload-btn {
+  justify-content: center;
+  text-align: center;
+}
+
+/* Group label (small tag inside toolbar groups) */
+.group-label {
+  font-size: 10px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+  padding-right: 6px;
+  border-right: 1px solid var(--border);
+  margin-right: 2px;
+  align-self: center;
+  flex-shrink: 0;
+}
+
+/* ── Buttons & uploads ── */
+button, .upload-btn {
+  border: 1px solid var(--border);
+  background: #252a37;
+  color: var(--text);
+  border-radius: 8px;
+  padding: 6px 10px;
+  cursor: pointer;
+  font-size: 12px;
+  white-space: nowrap;
+}
+button:hover, .upload-btn:hover { border-color: var(--mint); }
+button.danger { border-color: var(--rose); color: var(--rose); }
+
+/* ── Labels & inputs ── */
+label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 11px;
+  color: var(--muted);
+}
+
+/* Inline labels: label text and input side-by-side (used in toolbar + checkbox rows) */
+label.inline {
+  flex-direction: row;
+  align-items: center;
+  gap: 6px;
+  color: var(--muted);
+  font-size: 11px;
+  cursor: pointer;
+}
+
+/* Labels inside toolbar groups sit inline with their inputs */
+.toolbar-group label {
+  flex-direction: row;
+  align-items: center;
+  gap: 4px;
+}
+
+input:not([type="checkbox"]):not([type="range"]):not([type="color"]), select {
+  background: #11151d;
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  padding: 6px;
+  font-size: 12px;
+}
+input[type="color"] {
+  background: #11151d;
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  padding: 2px;
+  height: 28px;
+  width: 40px;
+  cursor: pointer;
+}
+input[type="checkbox"] {
+  accent-color: var(--teal);
+  width: 14px;
+  height: 14px;
+  margin: 0;
+  flex-shrink: 0;
+}
+input[type="range"] {
+  accent-color: var(--teal);
+}
+
+/* Remove browser spin buttons from number inputs */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type="number"] {
+  appearance: textfield;
+  -moz-appearance: textfield;
+}
+
+/* ── Panel resize handles ── */
+.panel-handle {
+  position: relative;
+  background: transparent;
+  cursor: col-resize;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 20;
+  transition: background 0.15s;
+}
+.panel-handle::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--border);
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+.panel-handle:hover::before {
+  opacity: 1;
+}
+.sidebar-toggle {
+  position: absolute;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  font-size: 11px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.15s;
+  z-index: 21;
+  flex-shrink: 0;
+}
+.panel-handle:hover .sidebar-toggle {
+  opacity: 1;
+}
+
+/* ── Sidebars ── */
+.sidebar {
+  min-width: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background: #151922;
+}
+.sidebar.left {
+  border-right: 1px solid var(--border);
+  padding: 8px;
+}
+.sidebar.right {
+  border-left: 1px solid var(--border);
+  padding: 8px 10px;
+}
+
+/* Collapsed state */
+#app.left-collapsed {
+  --left-w: 0px;
+}
+#app.left-collapsed .sidebar.left {
+  padding: 0;
+  overflow: hidden;
+  border-right: none;
+}
+#app.right-collapsed {
+  --right-w: 0px;
+}
+#app.right-collapsed .sidebar.right {
+  padding: 0;
+  overflow: hidden;
+  border-left: none;
+}
+
+/* ── Left sidebar tabs ── */
+.tabs {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 8px;
+}
+.tabs button {
+  text-align: left;
+  width: 100%;
+}
+.tabs button.active {
+  color: var(--teal);
+  border-color: var(--teal);
+}
+
+.tab-content {
+  display: none;
+  flex-direction: column;
+  gap: 6px;
+}
+.tab-content.active {
+  display: flex;
+}
+
+/* Full-width search inputs at top of panel tabs */
+.panel-search {
+  width: 100%;
+}
+
+/* ── Right sidebar (Inspector) ── */
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 6px;
+  margin-bottom: 4px;
+  border-bottom: 1px solid var(--border);
+}
+.panel-title {
+  color: var(--muted);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Collapsible inspector sections */
+.inspector-section {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  margin-bottom: 4px;
+  overflow: hidden;
+}
+.inspector-section > summary {
+  list-style: none;
+  padding: 7px 10px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  background: #1a1e29;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  user-select: none;
+}
+.inspector-section > summary::-webkit-details-marker {
+  display: none;
+}
+.inspector-section > summary::before {
+  content: '›';
+  font-size: 14px;
+  line-height: 1;
+  transition: transform 0.15s;
+  color: var(--muted);
+}
+.inspector-section[open] > summary::before {
+  transform: rotate(90deg);
+}
+.inspector-section:hover > summary {
+  color: var(--text);
+}
+.section-content {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 8px;
+  background: #151922;
+}
+
+/* Two-column layout for paired inputs (X/Y, W/H) */
+.prop-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+.prop-row label input {
+  width: 100%;
+}
+
+/* Full-width inputs inside section content */
+.section-content label input:not([type="checkbox"]):not([type="range"]):not([type="color"]),
+.section-content label select {
+  width: 100%;
+}
+
+/* Buttons inside right panel */
+.section-content button {
+  width: 100%;
+  margin-top: 2px;
+}
+.section-content .row.wrap {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px;
+}
+.section-content .row.wrap button {
+  width: 100%;
+}
+
+/* Delete button at the bottom of the right panel */
+.sidebar.right > #delete-selected {
+  width: 100%;
+  margin-top: 8px;
+}
+
+/* ── Canvas ── */
+.canvas-wrap {
+  display: grid;
+  place-items: center;
+  overflow: auto;
+  padding: 24px;
+  position: relative;
+  z-index: 1;
+}
+.zoom-controls {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: #1a1e29;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 4px 8px;
+}
+.zoom-controls button {
+  padding: 2px 8px;
+  font-size: 15px;
+  line-height: 1;
+}
+#zoom-level {
+  font-size: 11px;
+  color: var(--muted);
+  min-width: 40px;
+  text-align: center;
+}
+.canvas {
+  position: relative;
+  background: #fff;
+  box-shadow: 0 20px 70px rgba(0, 0, 0, 0.45);
+}
+
+/* ── Canvas elements ── */
+.el {
+  position: absolute;
+  user-select: none;
+  cursor: move;
+  transform-origin: center center;
+}
+.el.selected {
+  outline: 1px solid var(--teal);
+}
+.handle {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  right: -6px;
+  bottom: -6px;
+  border-radius: 50%;
+  background: var(--teal);
+  cursor: nwse-resize;
+}
+
+/* ── Asset grids ── */
+.asset-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 6px;
+}
+.asset-btn {
+  padding: 8px;
+  min-height: 70px;
+}
+.swatches {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 4px 0;
+}
+.swatch {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 4px 6px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.swatch-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+}
+.logo-row {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin: 4px 0;
+}
+.logo-row img {
+  width: 46px;
+  height: 46px;
+  object-fit: contain;
+  background: #fff;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  cursor: pointer;
+}
+
+/* ── Utility ── */
+.row {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+.row.wrap {
+  flex-wrap: wrap;
+}
+.empty {
+  color: var(--muted);
+  font-style: italic;
+}
+
+/* ── Auth dialog ── */
+dialog {
+  border: 1px solid var(--border);
+  background: #1c2028;
+  color: var(--text);
+  border-radius: 12px;
+}
+dialog input {
+  width: 100%;
+  margin-bottom: 6px;
+}
+.dialog-actions {
+  display: flex;
+  gap: 6px;
+  margin: 8px 0;
+}
+
+@media (max-width: 1200px) {
+  #app {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto 1fr auto auto;
+  }
+  .sidebar {
+    border: 0;
+    border-top: 1px solid var(--border);
+  }
+  .panel-handle {
+    display: none;
+  }
+}
