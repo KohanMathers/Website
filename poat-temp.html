@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Poat</title>
+  <link rel="stylesheet" href="/client/style.css">
+</head>
+
+<body>
+  <div id="app">
+    <header class="topbar">
+      <div class="logo">Poat</div>
+
+      <div class="toolbar-group wide">
+        <select id="canvas-preset" title="Preset size"></select>
+        <label class="inline">W <input id="canvas-width" type="number" value="1080"></label>
+        <label class="inline">H <input id="canvas-height" type="number" value="1080"></label>
+        <select id="canvas-unit" title="Unit">
+          <option value="px">px</option>
+          <option value="mm">mm</option>
+        </select>
+        <button id="resize-canvas">Resize</button>
+      </div>
+
+      <details class="toolbar-group toolbar-dropdown">
+        <summary>Insert</summary>
+        <div class="toolbar-dropdown-panel">
+          <button id="new-text">Text</button>
+          <button id="new-heading">Heading</button>
+          <select id="shape-type">
+            <option value="rect">Rectangle</option>
+            <option value="circle">Circle</option>
+            <option value="triangle">Triangle</option>
+            <option value="star">Star</option>
+            <option value="arrow">Arrow</option>
+            <option value="line">Line</option>
+            <option value="polygon">Polygon</option>
+            <option value="bubble">Speech Bubble</option>
+          </select>
+          <button id="new-shape">Shape</button>
+          <label class="upload-btn">Image<input id="image-upload" type="file"
+              accept="image/png,image/jpeg,image/webp,image/svg+xml,image/gif" hidden></label>
+        </div>
+      </details>
+
+      <details class="toolbar-group toolbar-dropdown">
+        <summary>Align</summary>
+        <div class="toolbar-dropdown-panel">
+          <button id="align-left">Left</button>
+          <button id="align-center">Center</button>
+          <button id="align-right">Right</button>
+          <button id="align-top">Top</button>
+          <button id="align-middle">Middle</button>
+          <button id="align-bottom">Bottom</button>
+          <button id="distribute-h">Distribute H</button>
+          <button id="distribute-v">Distribute V</button>
+        </div>
+      </details>
+
+      <details class="toolbar-group toolbar-dropdown">
+        <summary>Arrange</summary>
+        <div class="toolbar-dropdown-panel">
+          <button id="group-selection">Group</button>
+          <button id="ungroup-selection">Ungroup</button>
+          <button id="bring-front">Bring Forward</button>
+          <button id="send-back">Send Backward</button>
+        </div>
+      </details>
+
+      <div class="toolbar-group">
+        <button id="share-link">Share</button>
+        <button id="open-auth">Account</button>
+      </div>
+
+      <div class="zoom-controls">
+        <button id="zoom-out">−</button>
+        <span id="zoom-level">100%</span>
+        <button id="zoom-in">+</button>
+      </div>
+    </header>
+
+    <aside class="sidebar left">
+      <div class="tabs">
+        <button data-tab="elements" class="active">Elements</button>
+        <button data-tab="templates">Templates</button>
+        <button data-tab="icons">Icons</button>
+        <button data-tab="stickers">Stickers</button>
+        <button data-tab="brandkit">Brand Kit</button>
+        <button data-tab="fonts">Fonts</button>
+        <button data-tab="designs">Designs</button>
+      </div>
+
+      <div class="tab-content active" id="tab-elements">
+        <p>Shift-click for multi-select.</p>
+      </div>
+
+      <div class="tab-content" id="tab-templates">
+        <input id="template-filter" class="panel-search" placeholder="Filter by category">
+        <p class="empty" id="templates-empty">Nothing here yet. Very sad. Much empty.</p>
+        <div id="template-list"></div>
+      </div>
+
+      <div class="tab-content" id="tab-icons">
+        <input id="icon-search" class="panel-search" placeholder="Search icons">
+        <div id="icon-list" class="asset-grid"></div>
+      </div>
+
+      <div class="tab-content" id="tab-stickers">
+        <input id="sticker-search" class="panel-search" placeholder="Search stickers">
+        <div id="sticker-list" class="asset-grid"></div>
+      </div>
+
+      <div class="tab-content" id="tab-brandkit">
+        <label>Kit Name <input id="kit-name" placeholder="Client name"></label>
+        <label>Saved Kits <select id="kit-select"></select></label>
+        <div class="row">
+          <input id="kit-color" type="color" value="#a4e0c3">
+          <input id="kit-color-name" placeholder="Swatch name">
+          <button id="kit-add-color">Add</button>
+        </div>
+        <div id="kit-colors" class="swatches"></div>
+        <label class="upload-btn">Logo<input id="kit-logo-upload" type="file" accept="image/*" hidden></label>
+        <div id="kit-logos" class="logo-row"></div>
+        <button id="kit-save">Save Kit</button>
+      </div>
+
+      <div class="tab-content" id="tab-fonts">
+        <label class="upload-btn">Upload Font<input id="font-upload" type="file" accept=".ttf,.otf,.woff2"
+            hidden></label>
+        <label>Role
+          <select id="font-role">
+            <option value="heading">Heading</option>
+            <option value="body">Body</option>
+            <option value="accent">Accent</option>
+          </select>
+        </label>
+        <ul id="font-list"></ul>
+      </div>
+
+      <div class="tab-content" id="tab-designs">
+        <button id="refresh-designs">Refresh</button>
+        <div id="design-list"></div>
+      </div>
+    </aside>
+
+    <div class="panel-handle" id="left-handle">
+      <button class="sidebar-toggle" id="toggle-left" title="Toggle panel">‹</button>
+    </div>
+
+    <main class="canvas-wrap">
+      <div id="canvas" class="canvas" style="width:1080px;height:1080px;"></div>
+    </main>
+
+    <div class="panel-handle" id="right-handle">
+      <button class="sidebar-toggle" id="toggle-right" title="Toggle panel">›</button>
+    </div>
+
+    <aside class="sidebar right">
+      <div class="sidebar-header">
+        <span class="panel-title">Inspector</span>
+      </div>
+
+      <details class="inspector-section" open>
+        <summary>Position &amp; Size</summary>
+        <div class="section-content">
+          <div class="prop-row">
+            <label>X <input id="prop-x" type="number"></label>
+            <label>Y <input id="prop-y" type="number"></label>
+          </div>
+          <div class="prop-row">
+            <label>Width <input id="prop-w" type="number"></label>
+            <label>Height <input id="prop-h" type="number"></label>
+          </div>
+          <label>Rotation <input id="prop-r" type="number" step="1"></label>
+          <label>Opacity <input id="prop-o" type="range" min="0" max="1" step="0.05"></label>
+        </div>
+      </details>
+
+      <details class="inspector-section" open>
+        <summary>Style</summary>
+        <div class="section-content">
+          <label>Fill <input id="prop-fill" type="color" value="#a4e0c3"></label>
+          <label>Stroke <input id="prop-stroke" type="color" value="#000000"></label>
+          <label>Stroke Width <input id="prop-stroke-width" type="number" min="0" value="0"></label>
+          <label>Radius <input id="prop-radius" type="number" min="0" value="0"></label>
+        </div>
+      </details>
+
+      <details class="inspector-section" open>
+        <summary>Image</summary>
+        <div class="section-content">
+          <div class="row">
+            <label class="inline"><input id="prop-flip-x" type="checkbox"> Flip X</label>
+            <label class="inline"><input id="prop-flip-y" type="checkbox"> Flip Y</label>
+          </div>
+          <label>Mode
+            <select id="prop-image-mode">
+              <option value="cover">Fill</option>
+              <option value="contain">Fit</option>
+              <option value="auto">Crop</option>
+            </select>
+          </label>
+        </div>
+      </details>
+
+      <details class="inspector-section" open>
+        <summary>Text</summary>
+        <div class="section-content">
+          <label>Font <input id="prop-font" type="text" placeholder="Segoe UI"></label>
+          <label>Text Align
+            <select id="prop-text-align">
+              <option value="left">Left</option>
+              <option value="center">Center</option>
+              <option value="right">Right</option>
+            </select>
+          </label>
+          <label>Letter Spacing <input id="prop-letter" type="number" step="0.1" value="0"></label>
+          <label>Line Height <input id="prop-line" type="number" step="0.1" value="1.2"></label>
+        </div>
+      </details>
+
+      <details class="inspector-section" open>
+        <summary>Effects</summary>
+        <div class="section-content">
+          <label class="inline"><input id="prop-shadow" type="checkbox"> Drop Shadow</label>
+          <button id="remove-bg">Remove Background</button>
+        </div>
+      </details>
+
+      <details class="inspector-section" open>
+        <summary>Export</summary>
+        <div class="section-content">
+          <label>Scale
+            <select id="export-scale">
+              <option value="1">1×</option>
+              <option value="2">2×</option>
+              <option value="3">3×</option>
+            </select>
+          </label>
+          <label>JPG / WebP Quality <input id="export-quality" type="range" min="0.5" max="1" step="0.05"
+              value="0.9"></label>
+          <div class="row wrap">
+            <button id="export-png">PNG</button>
+            <button id="export-jpg">JPG</button>
+            <button id="export-webp">WebP</button>
+            <button id="export-svg">SVG</button>
+            <button id="export-pdf">PDF</button>
+            <button id="export-html">HTML ZIP</button>
+          </div>
+        </div>
+      </details>
+
+      <button id="delete-selected" class="danger">Delete</button>
+    </aside>
+  </div>
+
+  <dialog id="auth-dialog">
+    <form method="dialog" id="auth-form">
+      <h3>Poat Login</h3>
+      <input id="auth-email" type="email" placeholder="you@example.com" required>
+      <input id="auth-token" type="text" placeholder="Token">
+      <div class="dialog-actions">
+        <button id="request-token" type="button">Send Token</button>
+        <button id="resend-token" type="button">Resend</button>
+        <button id="verify-token" type="button">Verify</button>
+      </div>
+      <p id="auth-status"></p>
+      <button type="submit">Close</button>
+    </form>
+  </dialog>
+
+  <script type="module" src="/client/editor.js"></script>
+</body>
+
+</html>
